@@ -1,0 +1,66 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+*.pyo
+*.py.class
+
+# Virtual environment
+venv/
+env/
+ENV/
+.venv/
+.ENV/
+
+# Django stuff
+*.log
+*.pot
+*.pyc
+local_settings.py
+db.sqlite3
+media/
+staticfiles/
+
+# VSCode / IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Pip files
+pip-log.txt
+
+# Pytest / Test cache
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+
+# Migrations (optional)
+# You might want to track these, so comment/remove if needed
+# */migrations/*.py
+*/migrations/__pycache__/
+
+# Environment variables
+.env
+*.env
+
+# MyPy / Pylint / coverage
+.mypy_cache/
+.pyre/
+.pytype/
+.cache/
+
+# Build artifacts
+build/
+dist/
+*.egg-info/
+
+# SQLite database (optional)
+*.sqlite3
