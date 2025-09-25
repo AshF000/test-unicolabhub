@@ -6,6 +6,18 @@ Home
 
 {% block content %}
 <div class="container">
-    <h1>Welcome to Home page</h1>
+    {% if user.is_authenticated %}
+
+    <h1>Welcome @{{user}} </h1>
+
+    {% else %}
+
+    <!--    login form-->
+    <h1>Login</h1>
+    {% include 'login_form.html' %}
+
+
+    {% endif %}
+
 </div>
 {% endblock%}
