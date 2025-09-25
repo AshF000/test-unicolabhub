@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Register Form
+{% endblock %}
+
+{% block content %}
+<div class="container">
+<form method="POST" action="{% url 'user:register_user' %}">
+    {% csrf_token %}
+    <div class="mb-3">
+        <input type="text" class="form-control" name="username" placeholder="Username" required>
+    </div>
+    <div class="mb-3">
+        <input type="password" class="form-control" name="password" placeholder="Password" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+
+    <!--    login error message-->
+    {% if messages %}
+
+    {% for message in messages %}
+    <br>
+    <br>
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        {{message}}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+
+    {% endif %}
+
+</form>
+<br>
+<p>Or</p>
+<h6>Already have an account?</h6>
+<a href="{% url 'user:login_user' %}" class="btn btn-primary">Login Now</a>
+</div>
+{% endblock %}

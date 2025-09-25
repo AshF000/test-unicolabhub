@@ -1,6 +1,12 @@
 {% extends 'base.html' %}
 
-{% block title %}{% if user.is_authenticated %}{{user.username}}{% else %}Username{% endif %}{% endblock %}
+{% block title %}
+{% if user.is_authenticated %}
+{{user.username}}
+{% else %}
+Username
+{% endif %}
+{% endblock %}
 
 {% block content %}
 <section class="h-100 bg-black">
