@@ -7,3 +7,4 @@ def home(request):
         return render(request, "home.html")
     else:
         return redirect("user:login_user")
+    # hi rhythm
