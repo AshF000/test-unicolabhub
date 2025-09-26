@@ -7,7 +7,7 @@ from .models import CollabUser
 from .forms import UserUpdateForm, CollabUserUpdateForm
 
 
-# Create your views here.
+# user registration view
 def register_user(request):
     if request.method == 'POST':
         # Get data from the form
@@ -15,61 +15,64 @@ def register_user(request):
         password = request.POST.get('password')
         confirm_password = request.POST.get('confirm_password')
 
-        # Check if any field is empty
-        # if not username or not password or not confirm_password:
-        #     messages.error(request, "All fields are required.")
-        #     return redirect('register_user')
-
-        # Check if password and confirm password match
+        # check pass & confirm pass
         if password != confirm_password:
             messages.error(request, "Passwords do not match.")
             return redirect('user:register_user')
 
-        # Check if the username already exists
+        # check if username exists
         if User.objects.filter(username=username).exists():
             messages.error(request, "Username already taken.")
             return redirect('user:register_user')
 
-        # Create the user
+        # create user
         user = User.objects.create_user(username=username, password=password)
         user.is_staff = False  # Cannot access admin
         user.is_superuser = False  # Definitely not admin
         user.save()
 
-        # Successful registration message
+        # register done msg
         messages.success(request, "Registration successful! You can now log in.")
         return redirect('user:login_user')
 
-        # For GET request, render the registration form
+        # render reg form for GET method
     return render(request, 'user/register_form.html')
 
 
+# login view
 def login_user(request):
     if request.method == "POST":
+        # get data from form
         username = request.POST.get("username")
         password = request.POST.get("password")
+        # if no user, return none
         user = authenticate(request, username=username, password=password)
+
         if user is not None:
             login(request, user)
             return redirect("home")
         else:
+            # no login msg
             messages.error(request, "Invalid credentials")
             return render(request, "user/login_form.html")
     else:
         return render(request, "user/login_form.html")
 
 
+# logout view
 def logout_user(request):
     logout(request)
     messages.success(request, "You have been logged out.")
     return redirect('home')
 
 
+# profile view
 def user_profile(request):
     user = request.user
     return render(request, 'user/user_profile.html')
 
 
+# update profile
 @login_required
 def update_user(request):
     user = request.user
@@ -82,7 +85,7 @@ def update_user(request):
         if u_form.is_valid() and p_form.is_valid():
             u_form.save()
             p_form.save()
-            return redirect('user:user_profile')  # Or wherever you want
+            return redirect('user:user_profile')
 
     else:
         u_form = UserUpdateForm(instance=user)
@@ -93,6 +96,7 @@ def update_user(request):
         'p_form': p_form
     })
 
+# delete user
 @login_required
 def delete_user(request):
     if request.method == "POST":
@@ -102,8 +106,8 @@ def delete_user(request):
         if user.check_password(password):
             username = user.username
 
-            logout(request)  # log user out before deleting
-            user.delete()    # deletes user and cascades CollabUser
+            logout(request)
+            user.delete()
 
             messages.success(request, f"User '{username}' account deleted successfully.")
             return redirect('home')
