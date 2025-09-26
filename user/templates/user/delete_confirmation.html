@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{% if user.is_authenticated %}
+UniColabHub - Delete Account : {{user.username}}
+{% else %}
+Delete Account
+{% endif %}
+{% endblock %}
+
+{% block content %}
+<form method="POST" style="max-width: 400px; margin: auto; margin-top: 40px;">
+    {% csrf_token %}
+    <h3>Confirm Account Deletion</h3>
+    <p>Please enter your password to confirm deleting your account.</p>
+
+    <div class="mb-3">
+        <input
+                type="password"
+                name="password"
+                class="form-control"
+                placeholder="Password"
+                required
+                autofocus
+        >
+    </div>
+
+    <button type="submit" class="btn btn-danger w-100">Delete My Account</button>
+
+    {% if messages %}
+    <br>
+    {% for message in messages %}
+    <div class="alert alert-warning alert-dismissible fade show mt-3" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+    {% endif %}
+</form>
+
+{% endblock %}
