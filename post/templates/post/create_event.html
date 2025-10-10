@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Create Event
+{% endblock %}
+
+{% block content %}
+<div class="container"
+     style="margin-top: 60px; max-width: 500px; box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px; padding: 30px; border-radius: 15px;">
+
+    <h1 style="text-align:center;">Event</h1>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Upload</button>
+    </form>
+
+</div>
+{% endblock %}

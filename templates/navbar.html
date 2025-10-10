@@ -15,6 +15,23 @@
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
                 </li>
+
+                {% endif%}
+            </ul>
+            <ul class="navbar-nav ms-auto">
+                {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <div class="dropdown">
+                      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                        Create
+                      </button>
+                      <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                        <li><a class="dropdown-item" href="{% url 'post:create_event' %}">Event</a></li>
+                        <li><a class="dropdown-item" href="{% url 'post:create_project' %}">Project</a></li>
+                        <li><a class="dropdown-item" href="{% url 'post:create_thesis' %}">Thesis</a></li>
+                      </ul>
+                    </div>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'user:logout_user' %}">Logout</a>
                 </li>

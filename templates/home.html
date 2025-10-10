@@ -8,14 +8,25 @@ Home
 <div class="container">
     {% if user.is_authenticated %}
 
-    <h1>Welcome @{{user}} </h1>
+    <h1>Posts</h1>
 
-    {% else %}
-<h3>User nai</h3>
-    <!--    login form-->
-<!--    <h1>Login</h1>-->
-<!--    {% include 'login_form.html' %}-->
+    {% for item in feed_items %}
+      <div class="card mb-3 shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">{{ item.title }}</h5>
+          <p class="text-muted">{{ item.content_type }} • {{ item.created_at|date:"M d, Y H:i" }}</p>
+          <p class="card-text">{{ item.description|truncatechars:150 }}</p>
 
+          {% if item.cover_pic %}
+            <img src="{{ item.cover_pic.url }}" class="img-fluid rounded">
+          {% endif %}
+
+          <a href="#" class="btn btn-primary mt-2">View {{ item.content_type }}</a>
+        </div>
+      </div>
+    {% empty %}
+      <p>No posts yet.</p>
+    {% endfor %}
 
     {% endif %}
 

@@ -25,7 +25,7 @@ class Opinion(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
 
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
-    object_id = models.PositiveIntegerField()
+    object_id = models.PositiveIntegerField(null=True, blank=True)
     post = GenericForeignKey('content_type', 'object_id')
 
     def __str__(self):

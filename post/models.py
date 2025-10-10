@@ -1,5 +1,6 @@
 from django.db import models
 from collaboration.models import Collaborator
+from django.utils import timezone
 
 class Event(models.Model):
     organizer = models.ForeignKey(Collaborator, on_delete=models.SET_NULL,null=True)
@@ -11,6 +12,7 @@ class Event(models.Model):
     status = models.CharField(max_length=100)
     cover_pic = models.ImageField(upload_to="photos/", null=True, blank=True)
     schedule = models.ImageField(upload_to="photos/", null=True, blank=True)
+    created_at = models.DateTimeField(default=timezone.now)
 
 
 class Project(models.Model):
@@ -20,8 +22,9 @@ class Project(models.Model):
     start_date = models.DateField()
     deadline = models.DateField()
     status = models.CharField(max_length=100)
-    cover = models.ImageField(upload_to="photos/", null=True, blank=True)
+    cover_pic = models.ImageField(upload_to="photos/", null=True, blank=True)
     criteria = models.TextField()
+    created_at = models.DateTimeField(default=timezone.now)
 
 
 class Thesis(models.Model):
@@ -33,4 +36,5 @@ class Thesis(models.Model):
     start_date = models.DateField()
     end_date = models.DateField(null=True, blank=True)
     status = models.CharField(max_length=100)
-    cover = models.ImageField(upload_to="photos/", null=True, blank=True)
+    cover_pic = models.ImageField(upload_to="photos/", null=True, blank=True)
+    created_at = models.DateTimeField(default=timezone.now)

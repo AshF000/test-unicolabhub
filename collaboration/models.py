@@ -8,8 +8,8 @@ class Collaborator(models.Model):
     role = models.CharField(max_length=120)
     status = models.CharField(max_length=120)
 
-    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
-    object_id = models.PositiveIntegerField()
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE, null=True)
+    object_id = models.PositiveIntegerField(null=True, blank=True)
     post = GenericForeignKey('content_type', 'object_id')
 
     def __str__(self):
@@ -24,7 +24,7 @@ class Resource(models.Model):
     department = models.CharField(max_length=200)
 
     content_type = models.ForeignKey(ContentType, on_delete=models.SET_NULL, null=True)
-    object_id = models.PositiveIntegerField()
+    object_id = models.PositiveIntegerField(null=True, blank=True)
     allocated_to = GenericForeignKey('content_type', 'object_id')
 
     def __str__(self):
