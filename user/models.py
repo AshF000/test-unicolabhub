@@ -11,7 +11,7 @@ class CollabUser(models.Model):
     collaborator_date_of_birth = models.DateField(blank=True, null=True)
     collaborator_university_id = models.CharField(max_length=20, default='', blank=True)
     collaborator_type = models.CharField(max_length=20, default='', blank=True)
-    collaborator_about = models.CharField(max_length=20, default='', blank=True)
+    collaborator_about = models.TextField(default='', blank=True)
 
     collaborator_joined_on = models.DateField(auto_now_add=True)
 

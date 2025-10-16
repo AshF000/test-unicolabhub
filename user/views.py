@@ -78,22 +78,50 @@ def update_user(request):
     user = request.user
     profile = CollabUser.objects.get(user=user)
 
+    username = request.POST.get('username')
+    first_name = request.POST.get('first_name')
+    last_name = request.POST.get('last_name')
+    email = request.POST.get('email')
+    phone_number = request.POST.get('collaborator_phone')
+    department = request.POST.get('collaborator_department')
+    university = request.POST.get('collaborator_university')
+    university_id = request.POST.get('collaborator_university_id')
+    date_of_birth = request.POST.get('collaborator_dob')
+    type = request.POST.get('collaborator_type')
+    about = request.POST.get('collaborator_about')
+
+
     if request.method == 'POST':
-        u_form = UserUpdateForm(request.POST, instance=user)
-        p_form = CollabUserUpdateForm(request.POST, instance=profile)
+        username = request.POST.get('username')
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
+        email = request.POST.get('email')
+        phone_number = request.POST.get('collaborator_phone')
+        department = request.POST.get('collaborator_department')
+        university = request.POST.get('collaborator_university')
+        university_id = request.POST.get('collaborator_university_id')
+        date_of_birth = request.POST.get('collaborator_dob')
+        type = request.POST.get('collaborator_type')
+        about = request.POST.get('collaborator_about')
+        user.username = username
+        user.first_name = first_name
+        user.last_name = last_name
+        user.email = email
+        profile.collaborator_phone = phone_number
+        profile.collaborator_department = department
+        profile.collaborator_university = university
+        profile.collaborator_university_id = university_id
+        profile.collaborator_date_of_birth = date_of_birth
+        profile.collaborator_type = type
+        profile.collaborator_about = about
+        user.save()
+        profile.save()
+        return redirect('user:user_profile')
 
-        if u_form.is_valid() and p_form.is_valid():
-            u_form.save()
-            p_form.save()
-            return redirect('user:user_profile')
-
-    else:
-        u_form = UserUpdateForm(instance=user)
-        p_form = CollabUserUpdateForm(instance=profile)
 
     return render(request, 'user/update_profile.html', {
-        'u_form': u_form,
-        'p_form': p_form
+        'user': user,
+        'profile': profile
     })
 
 # delete user
