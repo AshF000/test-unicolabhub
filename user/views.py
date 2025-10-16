@@ -1,3 +1,5 @@
+import os
+
 from django.contrib import messages
 from django.contrib.auth import logout, authenticate, login
 from django.contrib.auth.decorators import login_required
@@ -149,8 +151,12 @@ def update_profile_pic(request):
     profile = CollabUser.objects.get(user=request.user)
     if request.method == "POST":
         picture = request.FILES.get("profile_picture")
+        if profile.profile_pic:
+            path = profile.profile_pic.path
         profile.profile_pic = picture
         profile.save()
+        if path:
+            os.remove(path)
         return redirect('user:user_profile')
     return render(request, 'user/change_profile_pic.html', {
         'profile': profile
