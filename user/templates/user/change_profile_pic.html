@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block title %}
-Profile Update
+Profile Picture Update
 {% endblock %}
 
 {% block content %}
@@ -14,7 +14,7 @@ Profile Update
         {% if profile.profile_pic %}
             <img src="{{ profile.profile_pic.url }}" alt="Profile Picture" width="400" class="rounded mb-2 img-thumbnail">
         {% else %}
-            <img src="https://via.placeholder.com/130?text=No+Image" alt="No Profile Picture" width="400" class="rounded mb-2 img-thumbnail">
+            <img src="https://www.seekpng.com/png/full/143-1435868_headshot-silhouette-person-placeholder.png" alt="No Profile Picture" width="400" class="rounded mb-2 img-thumbnail">
         {% endif %}
     </div>
 

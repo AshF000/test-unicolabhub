@@ -6,7 +6,6 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from .models import CollabUser
-from .forms import UserUpdateForm, CollabUserUpdateForm
 
 
 # user registration view
@@ -81,19 +80,6 @@ def update_user(request):
     user = request.user
     profile = CollabUser.objects.get(user=user)
 
-    username = request.POST.get('username')
-    first_name = request.POST.get('first_name')
-    last_name = request.POST.get('last_name')
-    email = request.POST.get('email')
-    phone_number = request.POST.get('collaborator_phone')
-    department = request.POST.get('collaborator_department')
-    university = request.POST.get('collaborator_university')
-    university_id = request.POST.get('collaborator_university_id')
-    date_of_birth = request.POST.get('collaborator_dob')
-    type = request.POST.get('collaborator_type')
-    about = request.POST.get('collaborator_about')
-
-
     if request.method == 'POST':
         username = request.POST.get('username')
         first_name = request.POST.get('first_name')
@@ -151,13 +137,26 @@ def update_profile_pic(request):
     profile = CollabUser.objects.get(user=request.user)
     if request.method == "POST":
         picture = request.FILES.get("profile_picture")
+        path = None
         if profile.profile_pic:
             path = profile.profile_pic.path
         profile.profile_pic = picture
         profile.save()
-        if path:
+        if path != None:
             os.remove(path)
         return redirect('user:user_profile')
     return render(request, 'user/change_profile_pic.html', {
         'profile': profile
     })
+
+def delete_profile_pic(request):
+    profile = CollabUser.objects.get(user=request.user)
+    if request.method == "POST":
+        path = None
+        if profile.profile_pic:
+            path = profile.profile_pic.path
+        profile.profile_pic = None
+        if path != None:
+            os.remove(path)
+            return redirect('user:user_profile')
+    return render(request, 'user/delete_profile_pic.html', {'profile': profile})
