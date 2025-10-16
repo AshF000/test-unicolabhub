@@ -10,7 +10,12 @@
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 {% if user.is_authenticated %}
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="{% url 'user:user_profile'%}">{{user.username}}</a>
+                    <a class="nav-link active" aria-current="page" href="{% url 'user:user_profile'%}">
+                        {% if user.collabuser.profile_pic %}
+                            <img src="{{ user.collabuser.profile_pic.url }}" alt="Profile Picture" class="rounded-circle" width="30" height="30" style="cursor: pointer; object-fit: cover;">
+                        {% else %}
+                            <img src="https://www.seekpng.com/png/full/143-1435868_headshot-silhouette-person-placeholder.png" alt="No Profile Picture" class="rounded-circle" width="30" height="30" style="cursor: pointer; object-fit: cover;">
+                        {% endif %}</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
