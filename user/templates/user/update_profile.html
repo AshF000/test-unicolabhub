@@ -6,7 +6,7 @@ Profile Update
 
 {% block content %}
 <div class="container"
-     style="margin-top: 60px; max-width: 500px; box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px; padding: 30px; border-radius: 15px;">
+     style="margin-top: 60px; max-width: 60em; box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px; padding: 30px; border-radius: 15px;">
 
     <h1 style="text-align:center;">Update Profile</h1>
 
@@ -14,6 +14,71 @@ Profile Update
         {% csrf_token %}
 
         <h3>Account Info</h3>
+        <div class="mb-3">
+            <label class="form-label" for="username">Username: </label>
+            <input type="text" value="{{ user.username }}" class="form-control" name="username" id="username" placeholder="Username" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label" for="email">Email address:</label>
+            <input type="email" class="form-control" name="email" id="email" placeholder="Email address" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label" for="first_name">First name:</label>
+            <input type="text" class="form-control" name="first_name" id="first_name" placeholder="First name" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label" for="last_name">Last name:</label>
+            <input type="text" class="form-control" name="last_name" id="last_name" placeholder="Last name" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label" for="collaborator_phone">Phone:</label>
+            <input type="tel" class="form-control" name="collaborator_phone" id="collaborator_phone" placeholder="Phone" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label" for="collaborator_department">Department:</label>
+            <input type="text" class="form-control" name="collaborator_department" id="collaborator_department" placeholder="Department" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label" for="collaborator_university">University:</label>
+            <input type="text" class="form-control" name="collaborator_university" id="collaborator_university" placeholder="University" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label" for="collaborator_dob">Date of birth:</label>
+            <input type="date" class="form-control" name="collaborator_dob" id="collaborator_dob" placeholder="YYYY-MM-DD" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="collaborator_university_id">University id: </label>
+            <input type="text" value="{{ collaborator.university_id }}" class="form-control" name="collaborator_university_id" id="collaborator_university_id" placeholder="University id" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label" for="collaborator_type">Collaborator type: </label>
+            <input type="text" value="{{ collaborator.type }}" class="form-control" name="collaborator_type" id="collaborator_type" placeholder="Collaborator type" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label" for="collaborator_about">Collaborator about: </label>
+            <textarea class="form-control" name="collaborator_about" id="collaborator_about" placeholder="Collaborator about" rows="5" style="resize: vertical; overflow: hidden;" required>{{ collaborator.about }}</textarea>
+        </div>
+
+        <script>
+            const textarea = document.getElementById('collaborator_about');
+            textarea.addEventListener('input', function() {
+                this.style.height = 'auto';
+                this.style.height = this.scrollHeight + 'px';
+            });
+            // Trigger on page load in case there's existing content
+            textarea.style.height = 'auto';
+            textarea.style.height = textarea.scrollHeight + 'px';
+        </script>
+
         {{ u_form.as_p }}
         {{ p_form.as_p }}
 
