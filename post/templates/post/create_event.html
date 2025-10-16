@@ -10,10 +10,67 @@ Create Event
 
     <h1 style="text-align:center;">Event</h1>
 
-    <form method="post" enctype="multipart/form-data">
+    <form method="post" enctype="multipart/form-data" style="overflow-y: scroll; max-height: calc(100vh - 300px); ">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Upload</button>
+
+        <div class="mb-3">
+            <label class="form-label" for="title">Title: </label>
+            <input type="text" class="form-control" name="title" id="title"
+                   placeholder="Title" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label" for="start_time">Start Time: </label>
+            <input type="datetime-local" class="form-control" name="start_time" id="start_time"
+                   placeholder="Start Time" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label" for="end_time">End Time: </label>
+            <input type="datetime-local" class="form-control" name="end_time" id="end_time"
+                   placeholder="End Time" required>
+        </div>
+
+        <!--location-->
+        <div class="mb-3">
+            <label class="form-label" for="location">Location: </label>
+            <input type="text" class="form-control" name="location" id="location"
+                   placeholder="Location" required>
+        </div>
+
+        <!--staus-->
+        <div class="mb-3">
+            <label class="form-label" for="status">Status: </label>
+
+            <select name="status" id="status" class="form-select" aria-label="Default select example" required>
+                <option value = "" selected>Select current status</option>
+                <option value="upcoming">Upcoming</option>
+                <option value="ongoing">Ongoing</option>
+                <option value="finished">Finished</option>
+                <option value="cancelled">Cancelled</option>
+            </select>
+        </div>
+
+        <!--cover_pic-->
+        <div class="mb-3">
+            <label class="form-label" for="cover_pic">Cover Pic: </label>
+            <input type="file" class="form-control" name="cover_pic" id="cover_pic" accept="image/*" required>
+        </div>
+
+        <!--schedule-->
+        <div class="mb-3">
+            <label class="form-label" for="schedule">Schedule: (optional)</label>
+            <input type="file" class="form-control" name="schedule" id="schedule" accept="image/*">
+        </div>
+
+
+        <div class="mb-3">
+            <label class="form-label" for="description">Description: </label>
+            <textarea class="form-control" name="description" id="description" placeholder="Description" rows="5"
+                      style="resize: vertical; overflow: hidden;" required></textarea>
+        </div>
+
+        <button type="submit">Upload Post</button>
     </form>
 
 </div>

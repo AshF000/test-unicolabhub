@@ -8,7 +8,7 @@ Home
 <div class="container">
     {% if user.is_authenticated %}
 
-    <h1>Posts</h1>
+    <h1 style="text-align: center; margin-top: 20px">Posts</h1>
 
     {% for item in feed_items %}
       <div class="card mb-3 shadow-sm">
@@ -37,6 +37,13 @@ Home
       <p>No posts yet.</p>
     {% endfor %}
 
+                <a href="#" class="btn btn-primary mt-3 align-self-start">View {{ item.content_type }}</a>
+            </div>
+        </div>
+        {% empty %}
+        <p>No posts yet.</p>
+        {% endfor %}
+    </div>
     {% endif %}
 
 </div>
