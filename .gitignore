@@ -64,3 +64,5 @@ dist/
 
 # SQLite database (optional)
 *.sqlite3
+
+*_initial.py
