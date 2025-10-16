@@ -5,6 +5,7 @@ from django.contrib.contenttypes.fields import GenericForeignKey
 
 class CollabUser(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    profile_pic = models.ImageField(upload_to='profile_pics', null=True, blank=True)
     collaborator_phone = models.CharField(max_length=20, default='', blank=True)
     collaborator_department = models.CharField(max_length=20, default='', blank=True)
     collaborator_university = models.CharField(max_length=20, default='', blank=True)

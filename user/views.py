@@ -69,7 +69,8 @@ def logout_user(request):
 # profile view
 def user_profile(request):
     user = request.user
-    return render(request, 'user/user_profile.html')
+    profile = CollabUser.objects.get(user=user)
+    return render(request, 'user/user_profile.html', {'profile': profile})
 
 
 # update profile
@@ -143,3 +144,14 @@ def delete_user(request):
             messages.error(request, "Incorrect password. Please try again.")
 
     return render(request, "user/delete_confirmation.html")
+
+def update_profile_pic(request):
+    profile = CollabUser.objects.get(user=request.user)
+    if request.method == "POST":
+        picture = request.FILES.get("profile_picture")
+        profile.profile_pic = picture
+        profile.save()
+        return redirect('user:user_profile')
+    return render(request, 'user/change_profile_pic.html', {
+        'profile': profile
+    })

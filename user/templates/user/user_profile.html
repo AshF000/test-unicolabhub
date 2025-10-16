@@ -16,9 +16,16 @@ Username
                 <div class="media align-items-end profile-head">
                     <div class="profile mr-3">
                         <div style="display:flex; align-items: start; column-gap: 20px;">
+                            {% if profile.profile_pic %}
+                                <a href="{% url 'user:update_profile_pic' %}">
+                                    <img src="{{ profile.profile_pic.url }}" alt="Profile Picture" width="130" class="rounded mb-2 img-thumbnail">
+                                </a>
+                            {% else %}
+                                <a href="{% url 'user:update_profile_pic' %}">
+                                    <img src="https://via.placeholder.com/130?text=No+Image" alt="No Profile Picture" width="130" class="rounded mb-2 img-thumbnail">
+                                </a>
+                            {% endif %}
 
-                            <img src="https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=80"
-                                 alt="..." width="130" class="rounded mb-2 img-thumbnail">
                             <div>
 
                                 <p style="margin-bottom: 0;">@{{user.username}}</p>
@@ -32,8 +39,8 @@ Username
 
 
                                 <p>
-                                    {% if user.collabuser.collaborator_university_id %}
-                                    Reg: {{user.collabuser.collaborator_university_id}}
+                                    {% if profile.collaborator_university_id %}
+                                    Reg: {{profile.collaborator_university_id}}
                                     {%else%}
                                     Update profile to show reg.
                                     {% endif %}
