@@ -16,15 +16,21 @@ Username
                 <div class="media align-items-end profile-head">
                     <div class="profile mr-3">
                         <div style="display:flex; align-items: start; column-gap: 20px;">
-                            {% if profile.profile_pic %}
-                                <a href="{% url 'user:update_profile_pic' %}">
-                                    <img src="{{ profile.profile_pic.url }}" alt="Profile Picture" width="130" class="rounded mb-2 img-thumbnail">
-                                </a>
-                            {% else %}
-                                <a href="{% url 'user:update_profile_pic' %}">
-                                    <img src="https://via.placeholder.com/130?text=No+Image" alt="No Profile Picture" width="130" class="rounded mb-2 img-thumbnail">
-                                </a>
-                            {% endif %}
+
+                            <div class="dropdown">
+                              <button class="btn p-0 border-0" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                    {% if profile.profile_pic %}
+                                        <img src="{{ profile.profile_pic.url }}" alt="Profile Picture" width="130" class="rounded mb-2 img-thumbnail">
+                                    {% else %}
+                                        <img src="https://via.placeholder.com/130?text=No+Image" alt="No Profile Picture" width="130" class="rounded mb-2 img-thumbnail">
+                                    {% endif %}
+                              </button>
+                              <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                <li><a class="dropdown-item" href="{% url 'user:update_profile_pic' %}">Update</a></li>
+                                <li><a class="dropdown-item" href="{% url 'home' %}">Delete</a></li>
+                              </ul>
+                            </div>
+
 
                             <div>
 
