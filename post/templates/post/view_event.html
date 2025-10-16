@@ -24,6 +24,13 @@
             <hr>
             <p class="text-black">Schedule:</p>
             <img src="{{ event.schedule.url }}" style="max-height: 100em; object-fit: cover;" class="card-img-top" alt="Schedule">
+            <div class="card-body text-center">
+                <a href="{{ event.schedule.url }}"
+                   download
+                   class="btn btn-primary mt-2">
+                   <i class="bi bi-download"></i> Download Schedule
+                </a>
+            </div>
             {% endif %}
 
         </div>
