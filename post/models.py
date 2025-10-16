@@ -10,8 +10,8 @@ class Event(models.Model):
     end_time = models.DateTimeField()
     location = models.CharField(max_length=100)
     status = models.CharField(max_length=100)
-    cover_pic = models.ImageField(upload_to="photos/", null=True, blank=True)
-    schedule = models.ImageField(upload_to="photos/", null=True, blank=True)
+    cover_pic = models.ImageField(upload_to="photos/", null=True, blank=True,default=None)
+    schedule = models.ImageField(upload_to="photos/", null=True, blank=True,default=None)
     created_at = models.DateTimeField(default=timezone.now)
 
 
@@ -22,7 +22,7 @@ class Project(models.Model):
     start_date = models.DateField()
     deadline = models.DateField()
     status = models.CharField(max_length=100)
-    cover_pic = models.ImageField(upload_to="photos/", null=True, blank=True)
+    cover_pic = models.ImageField(upload_to="photos/", null=True, blank=True,default=None)
     criteria = models.TextField()
     created_at = models.DateTimeField(default=timezone.now)
 
@@ -36,5 +36,5 @@ class Thesis(models.Model):
     start_date = models.DateField()
     end_date = models.DateField(null=True, blank=True)
     status = models.CharField(max_length=100)
-    cover_pic = models.ImageField(upload_to="photos/", null=True, blank=True)
+    cover_pic = models.ImageField(upload_to="photos/", null=True, blank=True,default=None)
     created_at = models.DateTimeField(default=timezone.now)

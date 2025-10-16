@@ -12,16 +12,25 @@ Home
 
     {% for item in feed_items %}
       <div class="card mb-3 shadow-sm">
-        <div class="card-body">
-          <h5 class="card-title">{{ item.title }}</h5>
-          <p class="text-muted">{{ item.content_type }} • {{ item.created_at|date:"M d, Y H:i" }}</p>
-          <p class="card-text">{{ item.description|truncatechars:150 }}</p>
-
           {% if item.cover_pic %}
-            <img src="{{ item.cover_pic.url }}" class="img-fluid rounded">
+            <img src="{{ item.cover_pic.url }}" style="max-height: 25em; object-fit: cover;" class="card-img-top" alt="Cover image">
           {% endif %}
+        <div class="card-body">
 
-          <a href="#" class="btn btn-primary mt-2">View {{ item.content_type }}</a>
+            <h5 class="card-title">{{ item.title }}</h5>
+            <p class="text-muted"><i>By: {{ item.organizer.user.username }}</i></p>
+            <p class="text-black">Type: {{ item.content_type }} • Posted: {{ item.created_at|date:"M d, Y H:i" }}</p>
+            <p class="text-black">Description</p>
+            <p class="card-text">{{ item.description|truncatechars:150 }}</p>
+
+
+            {% if item.content_type|lower == 'thesis' %}
+                <a href="{% url 'post:view_thesis' item.id %}" class="btn btn-primary mt-2">View {{ item.content_type }}</a>
+            {% elif item.content_type|lower == 'project' %}
+                <a href="{% url 'post:view_project' item.id %}" class="btn btn-primary mt-2">View {{ item.content_type }}</a>
+            {% elif item.content_type|lower == 'event' %}
+                <a href="{% url 'post:view_event' item.id %}" class="btn btn-primary mt-2">View {{ item.content_type }}</a>
+            {% endif %}
         </div>
       </div>
     {% empty %}

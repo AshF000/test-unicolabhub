@@ -10,7 +10,7 @@ Username
 
 {% block content %}
 <div class="row py-5 px-4">
-    <div class="col-md-8 mx-auto"> <!-- Profile widget -->
+    <div class="col-md-7 mx-auto"> <!-- Profile widget -->
         <div class="bg-white shadow rounded overflow-hidden">
             <div class="px-4 pt-4 pb-4 cover">
                 <div class="media align-items-end profile-head">
@@ -20,14 +20,16 @@ Username
                             <div class="dropdown">
                               <button class="btn p-0 border-0" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                     {% if profile.profile_pic %}
-                                        <img src="{{ profile.profile_pic.url }}" alt="Profile Picture" class="rounded-circle" width="130" height="130" style="cursor: pointer; object-fit: cover;">
+                                        <img src="{{ profile.profile_pic.url }}" alt="Profile Picture" class="rounded-circle" width="150" height="150" style="cursor: pointer; object-fit: cover;">
                                     {% else %}
-                                        <img src="https://via.placeholder.com/130?text=No+Image" alt="No Profile Picture" class="rounded-circle" width="130" height="130" style="cursor: pointer; object-fit: cover;">
+                                        <img src="https://www.seekpng.com/png/full/143-1435868_headshot-silhouette-person-placeholder.png" alt="No Profile Picture" class="rounded-circle" width="150" height="150" style="cursor: pointer; object-fit: cover;">
                                     {% endif %}
                               </button>
                               <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                <li><a class="dropdown-item" href="{% url 'user:update_profile_pic' %}">Update</a></li>
-                                <li><a class="dropdown-item" href="{% url 'home' %}">Delete</a></li>
+                                <li><a class="dropdown-item" href="{% url 'user:update_profile_pic' %}">{% if profile.profile_pic.path != None %}Update{% else %}Add{% endif %}</a></li>
+                                  {% if profile.profile_pic.path != None %}
+                                    <li><a class="dropdown-item" href="{% url 'user:delete_profile_pic' %}">Delete</a></li>
+                                  {% endif %}
                               </ul>
                             </div>
 
