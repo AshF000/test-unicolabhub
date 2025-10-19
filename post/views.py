@@ -4,6 +4,7 @@ from django.utils.dateparse import parse_datetime, parse_date
 from .forms import ProjectForm, EventForm, ThesisForm
 from .models import Project, Event, Thesis
 from collaboration.models import Collaborator
+from user.models import Opinion
 
 
 def create_event(request):
@@ -128,17 +129,41 @@ def create_project(request):
 
 def view_project(request, pk):
     project = Project.objects.get(pk=pk)
-    return render(request, 'post/view_project.html', {"project": project})
+    if request.method == "POST":
+        opinion = request.POST.get('opinion')
+        Opinion.objects.create(user=request.user, opinion=opinion, post=project)
+    opinions = Opinion.objects.all()
+    op_fil=[]
+    for op in opinions:
+        if op.post == project:
+            op_fil.append(op)
+    return render(request, 'post/view_project.html', {"project": project, "opinions": op_fil})
 
 
 def view_thesis(request, pk):
     thesis = Thesis.objects.get(pk=pk)
-    return render(request, 'post/view_thesis.html', {"thesis": thesis})
+    if request.method == "POST":
+        opinion = request.POST.get('opinion')
+        Opinion.objects.create(user=request.user, opinion=opinion, post=thesis)
+    opinions = Opinion.objects.all()
+    op_fil = []
+    for op in opinions:
+        if op.post == thesis:
+            op_fil.append(op)
+    return render(request, 'post/view_thesis.html', {"thesis": thesis, "opinions": op_fil})
 
 
 def view_event(request, pk):
     event = Event.objects.get(pk=pk)
-    return render(request, 'post/view_event.html', {"event": event})
+    if request.method == "POST":
+        opinion = request.POST.get('opinion')
+        Opinion.objects.create(user=request.user, opinion=opinion, post=event)
+    opinions = Opinion.objects.all()
+    op_fil = []
+    for op in opinions:
+        if op.post == event:
+            op_fil.append(op)
+    return render(request, 'post/view_event.html', {"event": event, "opinions": op_fil})
 
 
 def edit_project(request, pk):

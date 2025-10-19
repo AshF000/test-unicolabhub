@@ -25,7 +25,7 @@
 
         <div class="card-body">
             <!--        opinion input-->
-            <form method="post" action="{% url 'post:view_project' project.id %}">
+            <form method="post" action="{% url 'post:view_thesis' thesis.id %}">
                 {% csrf_token %}
                 <div class="mb-3">
                     <label for="opinion" class="form-label">Wanna say something?: </label>
@@ -48,7 +48,10 @@
                     <ul class="list-group">
                         {% if opinions %}
                         {% for opinion in opinions %}
-                        <li class="list-group-item">{{ opinion.text }}</li>
+                        <li class="list-group-item">
+                            <h6>Opinion by <i>{{ opinion.user.username }}</i> on <i>{{ opinion.timestamp }}</i>:</h6>
+                            <p>{{ opinion.opinion }}</p>
+                        </li>
                         {% endfor %}
                         {% else %}
                         <li class="list-group-item">No opinions right now.</li>
