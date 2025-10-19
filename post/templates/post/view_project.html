@@ -5,16 +5,17 @@
 {% endblock %}
 
 {% block content %}
-<div class="container ">
+<div class="container" style="margin-top: 20px;">
     <div class="card mb-3 shadow-sm">
-          {% if project.cover_pic != None %}
-            <img src="{{ project.cover_pic.url }}" style="max-height: 35em; object-fit: cover;" class="card-img-top" alt="Cover image">
-          {% endif %}
+        {% if project.cover_pic != None %}
+        <img src="{{ project.cover_pic.url }}" style="max-height: 35em; object-fit: cover;" class="card-img-top"
+             alt="Cover image">
+        {% endif %}
         <div class="card-body">
-
             <h5 class="card-title">{{ project.title }}</h5>
             <p class="text-muted"><i>By: {{ project.organizer.user.username }}</i></p>
-            <p class="text-black">Posted: {{ project.created_at|date:"M d, Y H:i" }} | Start Date: {{ project.start_date|date:"M d, Y" }} | Deadline: {{ project.deadline|date:"M d, Y" }}</p>
+            <p class="text-black">Posted: {{ project.created_at|date:"M d, Y H:i" }} | Start Date: {{
+                project.start_date|date:"M d, Y" }} | Deadline: {{ project.deadline|date:"M d, Y" }}</p>
             <p class="text-black">Status: {{ project.status }}</p>
             <hr>
             <p class="text-black">Description:</p>
@@ -22,9 +23,44 @@
             <hr>
             <p class="text-black">Criteria:</p>
             <p class="card-text">{{ project.criteria }}</p>
-
-
         </div>
+
+    </div>
+
+    <div class="card-body">
+        <!--        opinion input-->
+        <form method="post" action="{% url 'post:view_project' project.id %}">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="opinion" class="form-label">Wanna say something?: </label>
+                <input type="text" class="form-control" name="opinion" id="opinion"
+                       placeholder="Opinion" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Add Opinion</button>
+        </form>
+
+        <div style="margin-top: 20px;">
+            <ul class="list-group">
+                <li class="list-group-item active" aria-current="true" data-bs-toggle="collapse" href="#opinionsList"
+                    role="button" aria-expanded="false" aria-controls="opinionsList">
+                    Opinions
+                </li>
+            </ul>
+
+            <div class="collapse" id="opinionsList">
+                <ul class="list-group">
+                    {% if opinions %}
+                    {% for opinion in opinions %}
+                    <li class="list-group-item">{{ opinion.text }}</li>
+                    {% endfor %}
+                    {% else %}
+                    <li class="list-group-item">No opinions right now.</li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+
+
     </div>
 </div>
 

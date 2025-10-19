@@ -62,7 +62,7 @@ def create_thesis(request):
         collaborator = Collaborator(user=request.user, post=None)
         collaborator.save()
 
-        thesis = Thesis.object.create(
+        thesis = Thesis.objects.create(
             organizer=collaborator,
             title=title,
             description=description,
@@ -103,7 +103,7 @@ def create_project(request):
         collaborator = Collaborator(user=request.user, post=None)
         collaborator.save()
 
-        project = Project.object.create(
+        project = Project.objects.create(
             organizer=collaborator,
             title=title,
             description=description,
