@@ -6,9 +6,18 @@ Create Event
 
 {% block content %}
 <div class="container"
-     style="margin-top: 60px; max-width: 500px; box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px; padding: 30px; border-radius: 15px;">
+     style="margin-top: 60px; max-width: 500px; box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px; padding: 30px; border-radius: 15px; position:relative;">
+
+    <button type="button" class="close"
+            onclick="window.location.href='{% url 'home' %}'"
+            aria-label="Close"
+            style="position: absolute; top: 10px; right: 15px; font-size: 1.5rem; background: none; border: none;">
+        <span aria-hidden="true">&times;</span>
+    </button>
+
 
     <h1 style="text-align:center;">Event</h1>
+
 
     <form method="post" enctype="multipart/form-data" style="overflow-y: scroll; max-height: calc(100vh - 300px); ">
         {% csrf_token %}
@@ -43,7 +52,7 @@ Create Event
             <label class="form-label" for="status">Status: </label>
 
             <select name="status" id="status" class="form-select" aria-label="Default select example" required>
-                <option value = "" selected>Select current status</option>
+                <option value="" selected>Select current status</option>
                 <option value="upcoming">Upcoming</option>
                 <option value="ongoing">Ongoing</option>
                 <option value="finished">Finished</option>
