@@ -3,6 +3,7 @@ from django.db import models
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey
 
+
 class Collaborator(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     role = models.CharField(max_length=120)

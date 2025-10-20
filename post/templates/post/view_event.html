@@ -7,8 +7,9 @@
 {% block content %}
 
 <div class="container mt-4 rounded">
-    <div class="row"
-         style="height: calc(100vh - 150px); box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px; overflow: hidden;">
+    <a href="{% url 'home' %}">Go back</a>
+    <div class="row rounded"
+         style="height: calc(100vh - 150px); ">
 
         <!-- Left Sidebar: Opinions -->
         <div class="col-md-3 p-2">
@@ -34,7 +35,8 @@
                             </li>
                         </ul>
 
-                        <div class="collapse" id="opinionsList"  style="max-height: calc(100vh - 150px); overflow-y: auto;">
+                        <div class="collapse rounded" id="opinionsList"
+                             style="max-height: calc(100vh - 400px); overflow-y: auto; padding-bottom: 10px;">
                             <ul class="list-group mt-2">
                                 {% if opinions %}
                                 {% for opinion in opinions %}
@@ -56,12 +58,12 @@
 
         <!-- Main Content: Event Details -->
         <div class="col-md-6 p-2">
-            <div class="card mb-3 shadow-sm">
+            <div class="card mb-3 shadow-sm" style="height: 100%;">
                 {% if event.cover_pic %}
                 <img src="{{ event.cover_pic.url }}" class="card-img-top" style="max-height: 35em; object-fit: cover;"
                      alt="Cover image">
                 {% endif %}
-                <div class="card-body">
+                <div class="card-body" style="overflow-y: scroll;">
                     <h5 class="card-title">{{ event.title }}</h5>
                     <p class="text-muted"><i>By: {{ event.organizer.user.username }}</i></p>
                     <p class="text-black">
@@ -90,18 +92,8 @@
         </div>
 
         <!-- Right Sidebar: Add Resource -->
-        <div class="col-md-3 p-2">
-            <div class="d-flex flex-column align-items-center">
-                <!-- Add Resource Button -->
-                <button type="button" class="btn btn-success mb-2" data-bs-toggle="modal"
-                        data-bs-target="#addResourceModal">
-                    Add Resource
-                </button>
-
-                <!-- Include the modal template -->
-                {% include 'collaboration/add_resource.html' %}
-            </div>
-        </div>
+        <!-- Include the modal template -->
+        {% include 'collaboration/add_resource.html' %}
 
     </div>
 </div>

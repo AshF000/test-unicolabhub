@@ -1,0 +1,25 @@
+<div class="mt-4 rounded">
+    <ul class="list-group">
+        <li class="list-group-item active" data-bs-toggle="collapse" href="#opinionsList"
+            role="button" aria-expanded="false" aria-controls="opinionsList">
+            Opinions
+        </li>
+    </ul>
+
+    <div class="collapse rounded" id="opinionsList"
+         style="max-height: calc(100vh - 400px); overflow-y: auto; padding-bottom: 10px;">
+        <ul class="list-group mt-2">
+            {% if opinions %}
+            {% for opinion in opinions %}
+            <li class="list-group-item">
+                <h6>Opinion by <i>{{ opinion.user.username }}</i> on <i>{{ opinion.timestamp }}</i>:
+                </h6>
+                <p>{{ opinion.opinion }}</p>
+            </li>
+            {% endfor %}
+            {% else %}
+            <li class="list-group-item">No opinions right now.</li>
+            {% endif %}
+        </ul>
+    </div>
+</div>

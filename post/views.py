@@ -224,7 +224,9 @@ def view_thesis(request, pk):
     thesis = Thesis.objects.get(pk=pk)
     if request.method == "POST":
         opinion = request.POST.get('opinion')
-        Opinion.objects.create(user=request.user, opinion=opinion, post=thesis)
+        if opinion:
+            Opinion.objects.create(user=request.user, opinion=opinion, post=thesis)
+            return redirect('post:view_thesis', pk=pk)
     opinions = Opinion.objects.all()
     op_fil = []
     for op in opinions:
