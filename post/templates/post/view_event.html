@@ -5,74 +5,101 @@
 {% endblock %}
 
 {% block content %}
-<div class="container pt-4">
-    <div class="card mb-3 shadow-sm">
-        {% if event.cover_pic != None %}
-        <img src="{{ event.cover_pic.url }}" style="max-height: 35em; object-fit: cover;" class="card-img-top"
-             alt="Cover image">
-        {% endif %}
-        <div class="card-body">
 
-            <h5 class="card-title">{{ event.title }}</h5>
-            <p class="text-muted"><i>By: {{ event.organizer.user.username }}</i></p>
-            <p class="text-black">Posted: {{ event.created_at|date:"M d, Y H:i" }} | Start: {{ event.start_time|date:"M
-                d, Y H:i" }} | End: {{ event.end_time|date:"M d, Y H:i" }}</p>
-            <p class="text-black">Location: {{ event.location }} | Status: {{ event.status }}</p>
-            <hr>
-            <p class="text-black">Description:</p>
-            <p class="card-text">{{ event.description }}</p>
+<div class="container mt-4 rounded">
+    <div class="row"
+         style="height: calc(100vh - 150px); box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px; overflow: hidden;">
 
-            {% if event.schedule %}
-            <hr>
-            <p class="text-black">Schedule:</p>
-            <img src="{{ event.schedule.url }}" style="max-height: 100em; object-fit: cover;" class="card-img-top"
-                 alt="Schedule">
-            <div class="card-body text-center">
-                <a href="{{ event.schedule.url }}"
-                   download
-                   class="btn btn-primary mt-2">
-                    <i class="bi bi-download"></i> Download Schedule
-                </a>
+        <!-- Left Sidebar: Opinions -->
+        <div class="col-md-3 p-2">
+            <div class="card h-100">
+                <div class="card-body">
+                    <!-- Opinion input -->
+                    <form method="post" action="{% url 'post:view_event' event.id %}">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="opinion" class="form-label">Wanna say something?:</label>
+                            <input type="text" class="form-control" name="opinion" id="opinion" placeholder="Opinion"
+                                   required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Add Opinion</button>
+                    </form>
+
+                    <!-- Opinions list -->
+                    <div class="mt-4 rounded">
+                        <ul class="list-group">
+                            <li class="list-group-item active" data-bs-toggle="collapse" href="#opinionsList"
+                                role="button" aria-expanded="false" aria-controls="opinionsList">
+                                Opinions
+                            </li>
+                        </ul>
+
+                        <div class="collapse" id="opinionsList"  style="max-height: calc(100vh - 150px); overflow-y: auto;">
+                            <ul class="list-group mt-2">
+                                {% if opinions %}
+                                {% for opinion in opinions %}
+                                <li class="list-group-item">
+                                    <h6>Opinion by <i>{{ opinion.user.username }}</i> on <i>{{ opinion.timestamp }}</i>:
+                                    </h6>
+                                    <p>{{ opinion.opinion }}</p>
+                                </li>
+                                {% endfor %}
+                                {% else %}
+                                <li class="list-group-item">No opinions right now.</li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </div>
-            {% endif %}
-
         </div>
 
-        <div class="card-body">
-            <!--        opinion input-->
-            <form method="post" action="{% url 'post:view_event' event.id %}">
-                {% csrf_token %}
-                <div class="mb-3">
-                    <label for="opinion" class="form-label">Wanna say something?: </label>
-                    <input type="text" class="form-control" name="opinion" id="opinion"
-                           placeholder="Opinion" required>
-                </div>
-                <button type="submit" class="btn btn-primary">Add Opinion</button>
-            </form>
+        <!-- Main Content: Event Details -->
+        <div class="col-md-6 p-2">
+            <div class="card mb-3 shadow-sm">
+                {% if event.cover_pic %}
+                <img src="{{ event.cover_pic.url }}" class="card-img-top" style="max-height: 35em; object-fit: cover;"
+                     alt="Cover image">
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ event.title }}</h5>
+                    <p class="text-muted"><i>By: {{ event.organizer.user.username }}</i></p>
+                    <p class="text-black">
+                        Posted: {{ event.created_at|date:"M d, Y H:i" }} |
+                        Start: {{ event.start_time|date:"M d, Y H:i" }} |
+                        End: {{ event.end_time|date:"M d, Y H:i" }}
+                    </p>
+                    <p class="text-black">Location: {{ event.location }} | Status: {{ event.status }}</p>
+                    <hr>
+                    <p class="text-black">Description:</p>
+                    <p class="card-text">{{ event.description }}</p>
 
-            <div style="margin-top: 20px;">
-                <ul class="list-group">
-                    <li class="list-group-item active" aria-current="true" data-bs-toggle="collapse"
-                        href="#opinionsList"
-                        role="button" aria-expanded="false" aria-controls="opinionsList">
-                        Opinions
-                    </li>
-                </ul>
-
-                <div class="collapse" id="opinionsList">
-                    <ul class="list-group">
-                        {% if opinions %}
-                        {% for opinion in opinions %}
-                        <li class="list-group-item">
-                            <h6>Opinion by <i>{{ opinion.user.username }}</i> on <i>{{ opinion.timestamp }}</i>:</h6>
-                            <p>{{ opinion.opinion }}</p>
-                        </li>
-                        {% endfor %}
-                        {% else %}
-                        <li class="list-group-item">No opinions right now.</li>
-                        {% endif %}
-                    </ul>
+                    {% if event.schedule %}
+                    <hr>
+                    <p class="text-black">Schedule:</p>
+                    <img src="{{ event.schedule.url }}" class="card-img-top"
+                         style="max-height: 100em; object-fit: cover;" alt="Schedule">
+                    <div class="text-center mt-2">
+                        <a href="{{ event.schedule.url }}" download class="btn btn-primary">
+                            <i class="bi bi-download"></i> Download Schedule
+                        </a>
+                    </div>
+                    {% endif %}
                 </div>
+            </div>
+        </div>
+
+        <!-- Right Sidebar: Add Resource -->
+        <div class="col-md-3 p-2">
+            <div class="d-flex flex-column align-items-center">
+                <!-- Add Resource Button -->
+                <button type="button" class="btn btn-success mb-2" data-bs-toggle="modal"
+                        data-bs-target="#addResourceModal">
+                    Add Resource
+                </button>
+
+                <!-- Include the modal template -->
+                {% include 'collaboration/add_resource.html' %}
             </div>
         </div>
 

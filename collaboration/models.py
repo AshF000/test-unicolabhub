@@ -22,6 +22,7 @@ class Resource(models.Model):
     amount = models.PositiveIntegerField()
     university = models.CharField(max_length=200)
     department = models.CharField(max_length=200)
+    image = models.ImageField(upload_to="photos/", null=True, blank=True, default=None)
 
     content_type = models.ForeignKey(ContentType, on_delete=models.SET_NULL, null=True)
     object_id = models.PositiveIntegerField(null=True, blank=True)
