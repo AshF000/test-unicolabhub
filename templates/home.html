@@ -8,8 +8,6 @@ Home
 <div class="container">
     {% if user.is_authenticated %}
 
-    <h1 style="text-align: center; margin-top: 20px">Posts</h1>
-
     {% for item in feed_items %}
       <div class="card mb-3 shadow-sm">
           {% if item.cover_pic %}
@@ -23,14 +21,55 @@ Home
             <p class="text-black">Description</p>
             <p class="card-text">{{ item.description|truncatechars:150 }}</p>
 
+            <div class="d-flex">
+                {% if item.content_type|lower == 'thesis' %}
+                    <div class="pe-3">
+                        <a href="{% url 'post:view_thesis' item.id %}" class="btn btn-primary mt-2">View {{ item.content_type }}</a>
+                    </div>
 
-            {% if item.content_type|lower == 'thesis' %}
-                <a href="{% url 'post:view_thesis' item.id %}" class="btn btn-primary mt-2">View {{ item.content_type }}</a>
-            {% elif item.content_type|lower == 'project' %}
-                <a href="{% url 'post:view_project' item.id %}" class="btn btn-primary mt-2">View {{ item.content_type }}</a>
-            {% elif item.content_type|lower == 'event' %}
-                <a href="{% url 'post:view_event' item.id %}" class="btn btn-primary mt-2">View {{ item.content_type }}</a>
-            {% endif %}
+                    {% if item.organizer.user == request.user %}
+                        <div class="pe-3">
+                            <a href="#" class="btn btn-primary mt-2">Edit {{ item.content_type }}</a>
+                        </div>
+
+                        <div class="pe-3">
+                            <a href="{% url 'post:delete_thesis' item.id %}" class="btn btn-primary mt-2">Delete {{ item.content_type }}</a>
+                        </div>
+
+                    {% endif %}
+                {% elif item.content_type|lower == 'project' %}
+
+                    <div class="pe-3">
+                        <a href="{% url 'post:view_project' item.id %}" class="btn btn-primary mt-2">View {{ item.content_type }}</a>
+                    </div>
+                    {% if item.organizer.user == request.user %}
+
+                        <div class="pe-3">
+                            <a href="#" class="btn btn-primary mt-2">Edit {{ item.content_type }}</a>
+                        </div>
+
+                        <div class="pe-3">
+                            <a href="{% url 'post:delete_project' item.id %}" class="btn btn-primary mt-2">Delete {{ item.content_type }}</a>
+                        </div>
+                    {% endif %}
+                {% elif item.content_type|lower == 'event' %}
+
+                    <div class="pe-3">
+                        <a href="{% url 'post:view_event' item.id %}" class="btn btn-primary mt-2">View {{ item.content_type }}</a>
+                    </div>
+                    {% if item.organizer.user == request.user %}
+
+                        <div class="pe-3">
+                            <a href="#" class="btn btn-primary mt-2">Edit {{ item.content_type }}</a>
+                        </div>
+
+                        <div class="pe-3">
+                            <a href="{% url 'post:delete_event' item.id %}" class="btn btn-primary mt-2">Delete {{ item.content_type }}</a>
+                        </div>
+                    {% endif %}
+                {% endif %}
+            </div>
+
         </div>
       </div>
     {% empty %}
