@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import create_event, create_project,create_thesis, view_event, view_thesis, view_project, delete_event, delete_project, delete_thesis
+from .views import create_event, create_project,create_thesis, view_event, view_thesis, view_project, delete_event, delete_project, delete_thesis, edit_project, edit_event, edit_thesis
 
 app_name = 'post'
 
@@ -13,4 +13,7 @@ urlpatterns = [
     path("delete_event/<str:pk>", delete_event, name="delete_event"),
     path("delete_project/<str:pk>", delete_project, name="delete_project"),
     path("delete_thesis/<str:pk>", delete_thesis, name="delete_thesis"),
+    path("edit_event/<str:pk>", edit_event, name="edit_event"),
+    path("edit_project/<str:pk>", edit_project, name="edit_project"),
+    path("edit_thesis/<str:pk>", edit_thesis, name="edit_thesis"),
 ]

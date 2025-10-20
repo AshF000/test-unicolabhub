@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Edit Project
+{% endblock %}
+
+{% block content %}
+<div class="container"
+     style="margin-top: 60px; max-width: 500px; box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px; padding: 30px; border-radius: 15px; position: relative;">
+    <button type="button" class="close"
+            onclick="window.location.href='{% url 'home' %}'"
+            aria-label="Close"
+            style="position: absolute; top: 10px; right: 15px; font-size: 1.5rem; background: none; border: none;">
+        <span aria-hidden="true">&times;</span>
+    </button>
+
+
+    <h1 style="text-align:center;">Project</h1>
+
+    <form method="post" enctype="multipart/form-data" style="overflow-y: scroll; max-height: calc(100vh - 300px);">
+        {% csrf_token %}
+
+        <!--        title-->
+        <div class="mb-3">
+            <label class="form-label" for="title">Title: </label>
+            <input type="text" class="form-control" name="title" value="{{ project.title }}" id="title"
+                   placeholder="Title" required>
+        </div>
+
+        <!--        description-->
+        <div class="mb-3">
+            <label class="form-label" for="description">Description: </label>
+            <textarea class="form-control" name="description" id="description" placeholder="Description" rows="5"
+                      style="resize: vertical; overflow: hidden;" required>{{ project.description }}</textarea>
+        </div>
+
+        <!--        start date-->
+        <div class="mb-3">
+            <label class="form-label" for="start_date">Start Date: </label>
+            <input type="date" class="form-control" name="start_date" value="{{ project.start_date|date:'Y-m-d' }}" id="start_date"
+                   placeholder="Start Date" required>
+        </div>
+
+        <!--        deadline-->
+        <div class="mb-3">
+            <label class="form-label" for="deadline">Deadline: </label>
+            <input type="date" class="form-control" name="deadline" value="{{ project.deadline|date:'Y-m-d' }}" id="deadline"
+                   placeholder="Deadline" required>
+        </div>
+
+        <!--staus-->
+        <div class="mb-3">
+            <label class="form-label" for="status">Status: </label>
+
+            <select name="status" id="status" class="form-select" aria-label="Default select example" required>
+                <option value="" {% if not project.status %}selected{% endif %}>Select current status</option>
+
+                <option value="upcoming" {% if project.status == 'upcoming' %}selected{% endif %}>Upcoming</option>
+                <option value="ongoing" {% if project.status == 'ongoing' %}selected{% endif %}>Ongoing</option>
+                <option value="finished" {% if project.status == 'finished' %}selected{% endif %}>Finished</option>
+                <option value="cancelled" {% if project.status == 'cancelled' %}selected{% endif %}>Cancelled</option>
+            </select>
+        </div>
+
+        <!--cover_pic-->
+        <div class="mb-3">
+            <label class="form-label" for="cover_pic">Cover Pic: </label>
+            <input type="file" class="form-control" name="cover_pic" id="cover_pic" accept="image/*">
+        </div>
+
+        <!--        criteria-->
+        <div class="mb-3">
+            <label class="form-label" for="criteria">Criteria: </label>
+            <textarea class="form-control" name="criteria" id="criteria" placeholder="Criteria" rows="5"
+                      style="resize: vertical; overflow: hidden;" required>{{ project.criteria }}</textarea>
+        </div>
+
+
+        <button type="submit">Upload</button>
+    </form>
+
+</div>
+{% endblock %}

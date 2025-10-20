@@ -29,7 +29,7 @@ Home
 
                     {% if item.organizer.user == request.user %}
                         <div class="pe-3">
-                            <a href="#" class="btn btn-primary mt-2">Edit {{ item.content_type }}</a>
+                            <a href="{% url 'post:edit_thesis' item.id %}" class="btn btn-primary mt-2">Edit {{ item.content_type }}</a>
                         </div>
 
                         <div class="pe-3">
@@ -45,7 +45,7 @@ Home
                     {% if item.organizer.user == request.user %}
 
                         <div class="pe-3">
-                            <a href="#" class="btn btn-primary mt-2">Edit {{ item.content_type }}</a>
+                            <a href="{% url 'post:edit_project' item.id %}" class="btn btn-primary mt-2">Edit {{ item.content_type }}</a>
                         </div>
 
                         <div class="pe-3">
