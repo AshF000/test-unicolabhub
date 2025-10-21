@@ -16,6 +16,7 @@
                     <!-- Opinion input -->
                     <form method="post" action="{% url 'post:view_thesis' thesis.id %}">
                         {% csrf_token %}
+                        <input type="hidden" name="action" value="opinion">
                         <div class="mb-3">
                             <label for="opinion" class="form-label">Wanna say something?: </label>
                             <input type="text" class="form-control" name="opinion" id="opinion" placeholder="Opinion"
@@ -53,7 +54,7 @@
 
         <!-- Right Sidebar: Add Resource -->
         <!-- Include the modal template -->
-        {% include 'collaboration/add_resource.html' %}
+        {% include 'collaboration/resource_list.html' %}
 
 
     </div>

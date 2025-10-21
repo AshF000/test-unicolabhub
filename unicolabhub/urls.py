@@ -13,6 +13,7 @@ urlpatterns = [
     path("home/", lambda request: redirect("home")),
     path('user/', include('user.urls')),
     path('post/', include('post.urls')),
+    path('collaboration/', include('collaboration.urls')),
 ]
 
 if settings.DEBUG:

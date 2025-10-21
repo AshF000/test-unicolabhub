@@ -1,0 +1,38 @@
+<div class="col-md-3 p-2" style="max-height: calc(100vh - 150px);">
+    <div class="card h-100">
+        <div class="card-body d-flex flex-column align-items-center">
+
+            {% include 'collaboration/add_resource.html' %}
+
+            <div class="container" style=" max-height: calc(100vh - 290px); overflow-y: auto;">
+                <h3 class="text-center mt-3">Allocate Resources</h3>
+
+                <ul class="list-group d-flex flex-wrap"
+                    style="flex-direction: row; justify-content: space-evenly; align-items: center;">
+                    <!--start list loop-->
+                    {% for r in resources %}
+                    <li class="list-group-item rounded w-100"
+                        style="height: 100px; margin: 10px 0; border: 1px solid #ddd;">
+                        <div class="d-flex flex-column justify-content-between h-100">
+                            <p class="d-flex justify-content-between"><span class="text-truncate">{{r.name}}</span>
+                                <span>{{r.amount}}</span>
+                            </p>
+                            <div class="mt-auto">
+                                <button class="btn btn-primary btn-sm w-100 mb-1" data-bs-toggle="modal"
+                                        data-bs-target="#viewModal">View
+                                </button>
+                            </div>
+                        </div>
+                    </li>
+                    {% endfor %}
+                    <!--end loop/for-->
+                </ul>
+
+
+            </div>
+
+            {% include 'collaboration/view_resource.html' %}
+
+        </div>
+    </div>
+</div>

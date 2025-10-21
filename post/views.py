@@ -1,9 +1,10 @@
+from django.contrib.contenttypes.models import ContentType
 from django.shortcuts import render, redirect
 from django.utils.dateparse import parse_datetime, parse_date
 
 from .forms import ProjectForm, EventForm, ThesisForm
 from .models import Project, Event, Thesis
-from collaboration.models import Collaborator
+from collaboration.models import Collaborator, Resource
 from user.models import Opinion
 
 
@@ -126,6 +127,7 @@ def create_project(request):
 
     return render(request, 'post/create_project.html', {"form": form})
 
+
 def edit_project(request, pk):
     project = Project.objects.get(pk=pk)
     if request.method == "POST":
@@ -213,26 +215,30 @@ def view_project(request, pk):
         opinion = request.POST.get('opinion')
         Opinion.objects.create(user=request.user, opinion=opinion, post=project)
     opinions = Opinion.objects.all()
-    op_fil=[]
+    op_fil = []
     for op in opinions:
         if op.post == project:
             op_fil.append(op)
-    return render(request, 'post/view_project.html', {"project": project, "opinions": op_fil})
+    content_type = ContentType.objects.get_for_model(Thesis)
+    resources = Resource.objects.filter(content_type=content_type, object_id=project.pk)
+    return render(request, 'post/view_project.html',
+                  {"project": project, "opinions": op_fil, "resources": resources, "type": "project", "obj": project})
 
 
 def view_thesis(request, pk):
     thesis = Thesis.objects.get(pk=pk)
     if request.method == "POST":
         opinion = request.POST.get('opinion')
-        if opinion:
-            Opinion.objects.create(user=request.user, opinion=opinion, post=thesis)
-            return redirect('post:view_thesis', pk=pk)
+        Opinion.objects.create(user=request.user, opinion=opinion, post=thesis)
     opinions = Opinion.objects.all()
     op_fil = []
     for op in opinions:
         if op.post == thesis:
             op_fil.append(op)
-    return render(request, 'post/view_thesis.html', {"thesis": thesis, "opinions": op_fil})
+    content_type = ContentType.objects.get_for_model(Thesis)
+    resources = Resource.objects.filter(content_type=content_type, object_id=thesis.pk)
+    return render(request, 'post/view_thesis.html',
+                  {"thesis": thesis, "opinions": op_fil, "resources": resources, "type": "thesis", "obj": thesis})
 
 
 def view_event(request, pk):
@@ -245,10 +251,10 @@ def view_event(request, pk):
     for op in opinions:
         if op.post == event:
             op_fil.append(op)
-    return render(request, 'post/view_event.html', {"event": event, "opinions": op_fil})
-
-
-
+    content_type = ContentType.objects.get_for_model(Event)
+    resources = Resource.objects.filter(content_type=content_type, object_id=event.pk)
+    return render(request, 'post/view_event.html',
+                  {"event": event, "opinions": op_fil, "resources": resources, "type": "event", "obj": event})
 
 
 def delete_project(request, pk):
