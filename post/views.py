@@ -234,6 +234,7 @@ def view_project(request, pk):
     cols = [col for col in cols if col.role == "collaborator" and col.post == project]
     if (project.organizer.user != request.user):
         collaborators = Collaborator.objects.filter(user=request.user)
+        collaborator = None
         for col in collaborators:
             if col.post == project:
                 collaborator = col
@@ -241,6 +242,7 @@ def view_project(request, pk):
             else:
                 collaborator = None
     else:
+        collaborator = None
         collaborators = Collaborator.objects.filter(user=request.user)
         for col in collaborators:
             if col.post == project:
@@ -272,6 +274,7 @@ def view_thesis(request, pk):
     cols = [col for col in cols if col.role == "collaborator" and col.post == thesis]
     if (thesis.organizer.user != request.user):
         collaborators = Collaborator.objects.filter(user=request.user)
+        collaborator = None
         for col in collaborators:
             if col.post == thesis:
                 collaborator = col
@@ -280,6 +283,7 @@ def view_thesis(request, pk):
                 collaborator = None
     else:
         collaborators = Collaborator.objects.filter(user=request.user)
+        collaborator = None
         for col in collaborators:
             if col.post == thesis:
                 collaborator = col
@@ -310,6 +314,7 @@ def view_event(request, pk):
     cols = [col for col in cols if col.role == "collaborator" and col.post == event]
     if(event.organizer.user != request.user):
         collaborators = Collaborator.objects.filter(user=request.user)
+        collaborator = None
         for col in collaborators:
             if col.post == event:
                 collaborator = col
@@ -318,6 +323,7 @@ def view_event(request, pk):
                 collaborator = None
     else:
         collaborators = Collaborator.objects.filter(user=request.user)
+        collaborator = None
         for col in collaborators:
             if col.post == event:
                 collaborator = col
