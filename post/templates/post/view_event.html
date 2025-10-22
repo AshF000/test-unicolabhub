@@ -15,6 +15,25 @@
         <div class="col-md-3 p-2">
             <div class="card h-100">
                 <div class="card-body">
+                    <!-- Collaborators Section -->
+                    <div class="mb-4 rounded">
+                        <ul class="list-group">
+                            <li class="list-group-item active" data-bs-toggle="collapse" href="#collaboratorsList"
+                                role="button" aria-expanded="true" aria-controls="collaboratorsList">
+                                Collaborators
+                            </li>
+                        </ul>
+
+                        <div class="collapse show rounded" id="collaboratorsList"
+                             style="max-height: 200px; overflow-y: auto; padding-bottom: 10px;">
+                            <ul class="list-group mt-2">
+                                <li class="list-group-item active" data-bs-toggle="collapse"><p>Organizer: {{event.organizer.user.username}}</p></li>
+                                {% for col in collaborators %}
+                                <li class="list-group-item active" data-bs-toggle="collapse"><p>Collaborator: {{col.user.username}}</p></li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
                     <!-- Opinion input -->
                     <form method="post" action="{% url 'post:view_event' event.id %}">
                         {% csrf_token %}
@@ -64,6 +83,11 @@
                      alt="Cover image">
                 {% endif %}
                 <div class="card-body" style="overflow-y: scroll;">
+                    {% if collaborator is None and collaborator.role != 'organizer' %}
+                    <div class="pe-3">
+                        <a href="{% url 'collaboration:join_request' event.organizer.id %}" class="btn btn-primary mt-2">Collab in this event</a>
+                    </div>
+                    {% endif %}
                     <h5 class="card-title">{{ event.title }}</h5>
                     <p class="text-muted"><i>By: {{ event.organizer.user.username }}</i></p>
                     <p class="text-black">

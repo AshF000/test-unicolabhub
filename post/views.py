@@ -1,6 +1,6 @@
 from django.contrib import messages
 from django.contrib.contenttypes.models import ContentType
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.dateparse import parse_datetime, parse_date
 
 from .forms import ProjectForm, EventForm, ThesisForm
@@ -22,7 +22,7 @@ def create_event(request):
         start_time = parse_datetime(request.POST.get('start_time'))
         end_time = parse_datetime(request.POST.get('end_time'))
 
-        collaborator = Collaborator(user=request.user, post=None)
+        collaborator = Collaborator(user=request.user, post=None, role="organizer")
         collaborator.save()
 
         event = Event.objects.create(
@@ -62,7 +62,7 @@ def create_thesis(request):
 
         cover_pic = request.FILES.get('cover_pic')
 
-        collaborator = Collaborator(user=request.user, post=None)
+        collaborator = Collaborator(user=request.user, post=None, role="organizer")
         collaborator.save()
 
         thesis = Thesis.objects.create(
@@ -103,7 +103,7 @@ def create_project(request):
 
         criteria = request.POST.get('criteria')
 
-        collaborator = Collaborator(user=request.user, post=None)
+        collaborator = Collaborator(user=request.user, post=None, role="organizer")
         collaborator.save()
 
         project = Project.objects.create(
@@ -199,19 +199,55 @@ def edit_thesis(request, pk):
 def edit_event(request, pk):
     event = Event.objects.get(pk=pk)
     if request.method == "POST":
-        form = EventForm(request.POST, instance=event)
-        if form.is_valid():
-            event = form.save(commit=False)
-            return redirect("home")
+        title = request.POST.get('title')
+        start_time = parse_datetime(request.POST.get('start_time'))
+        end_time = parse_datetime(request.POST.get('end_time'))
+        location = request.POST.get('location')
+        status = request.POST.get('status')
+        description = request.POST.get('description')
 
-    else:
-        form = EventForm(instance=event)
+        cover_pic = request.FILES.get('cover_pic')
+        schedule = request.FILES.get('schedule')
 
-    return render(request, 'post/edit_event.html', {"form": form})
+        # Update event fields
+        event.title = title
+        event.start_time = start_time
+        event.end_time = end_time
+        event.location = location
+        event.status = status
+        event.description = description
+
+        if cover_pic:
+            event.cover_pic = cover_pic
+        if schedule:
+            event.schedule = schedule
+
+        event.save()
+        return redirect("home")
+
+    return render(request, 'post/edit_event.html', {"event": event})
 
 
 def view_project(request, pk):
     project = Project.objects.get(pk=pk)
+    cols = Collaborator.objects.all()
+    cols = [col for col in cols if col.role == "collaborator" and col.post == project]
+    if (project.organizer.user != request.user):
+        collaborators = Collaborator.objects.filter(user=request.user)
+        for col in collaborators:
+            if col.post == project:
+                collaborator = col
+                break
+            else:
+                collaborator = None
+    else:
+        collaborators = Collaborator.objects.filter(user=request.user)
+        for col in collaborators:
+            if col.post == project:
+                collaborator = col
+                break
+            else:
+                collaborator = None
     if request.method == "POST":
         opinion = request.POST.get('opinion')
         if not opinion:
@@ -227,11 +263,29 @@ def view_project(request, pk):
     content_type = ContentType.objects.get_for_model(Thesis)
     resources = Resource.objects.filter(content_type=content_type, object_id=project.pk)
     return render(request, 'post/view_project.html',
-                  {"project": project, "opinions": op_fil, "resources": resources, "type": "project", "obj": project})
+                  {"project": project, "opinions": op_fil, "resources": resources, "type": "project", "obj": project, "collaborator": collaborator, "collaborators": cols})
 
 
 def view_thesis(request, pk):
     thesis = Thesis.objects.get(pk=pk)
+    cols = Collaborator.objects.all()
+    cols = [col for col in cols if col.role == "collaborator" and col.post == thesis]
+    if (thesis.organizer.user != request.user):
+        collaborators = Collaborator.objects.filter(user=request.user)
+        for col in collaborators:
+            if col.post == thesis:
+                collaborator = col
+                break
+            else:
+                collaborator = None
+    else:
+        collaborators = Collaborator.objects.filter(user=request.user)
+        for col in collaborators:
+            if col.post == thesis:
+                collaborator = col
+                break
+            else:
+                collaborator = None
     if request.method == "POST":
         opinion = request.POST.get('opinion')
         if not opinion:
@@ -247,11 +301,30 @@ def view_thesis(request, pk):
     content_type = ContentType.objects.get_for_model(Thesis)
     resources = Resource.objects.filter(content_type=content_type, object_id=thesis.pk)
     return render(request, 'post/view_thesis.html',
-                  {"thesis": thesis, "opinions": op_fil, "resources": resources, "type": "thesis", "obj": thesis})
+                  {"thesis": thesis, "opinions": op_fil, "resources": resources, "type": "thesis", "obj": thesis, "collaborator": collaborator, "collaborators": cols})
 
 
 def view_event(request, pk):
     event = Event.objects.get(pk=pk)
+    cols = Collaborator.objects.all()
+    cols = [col for col in cols if col.role == "collaborator" and col.post == event]
+    if(event.organizer.user != request.user):
+        collaborators = Collaborator.objects.filter(user=request.user)
+        for col in collaborators:
+            if col.post == event:
+                collaborator = col
+                break
+            else:
+                collaborator = None
+    else:
+        collaborators = Collaborator.objects.filter(user=request.user)
+        for col in collaborators:
+            if col.post == event:
+                collaborator = col
+                break
+            else:
+                collaborator = None
+
     if request.method == "POST":
         opinion = request.POST.get('opinion')
         if not opinion:
@@ -267,7 +340,7 @@ def view_event(request, pk):
     content_type = ContentType.objects.get_for_model(Event)
     resources = Resource.objects.filter(content_type=content_type, object_id=event.pk)
     return render(request, 'post/view_event.html',
-                  {"event": event, "opinions": op_fil, "resources": resources, "type": "event", "obj": event})
+                  {"event": event, "opinions": op_fil, "resources": resources, "type": "event", "obj": event, "collaborator": collaborator, "collaborators": cols})
 
 
 def delete_project(request, pk):

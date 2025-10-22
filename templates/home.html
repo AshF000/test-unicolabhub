@@ -35,7 +35,6 @@ Home
                         <div class="pe-3">
                             <a href="{% url 'post:delete_thesis' item.id %}" class="btn btn-primary mt-2">Delete {{ item.content_type }}</a>
                         </div>
-
                     {% endif %}
                 {% elif item.content_type|lower == 'project' %}
 
@@ -60,7 +59,7 @@ Home
                     {% if item.organizer.user == request.user %}
 
                         <div class="pe-3">
-                            <a href="#" class="btn btn-primary mt-2">Edit {{ item.content_type }}</a>
+                            <a href="{% url 'post:edit_event' item.id %}" class="btn btn-primary mt-2">Edit {{ item.content_type }}</a>
                         </div>
 
                         <div class="pe-3">

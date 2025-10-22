@@ -25,7 +25,7 @@
             </ul>
             <ul class="navbar-nav ms-auto">
                 {% if user.is_authenticated %}
-                <li class="nav-item">
+                <li class="nav-item p-2">
                     <div class="dropdown">
                       <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                         Create
@@ -37,6 +37,22 @@
                       </ul>
                     </div>
                 </li>
+                <li class="nav-item p-2">
+                    <div class="dropdown">
+                          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
+                            Notifications
+                          </button>
+                          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                              {% for notification in notifications %}
+                            <li><a class="dropdown-item" href="{% url 'collaboration:review_request' notification.id %}">{{ notification.message }}</a></li>
+                              {% endfor %}
+                          </ul>
+                    </div>
+                </li>
+
+
+
+
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'user:logout_user' %}">Logout</a>
                 </li>
