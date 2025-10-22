@@ -65,8 +65,7 @@
                     {% endif %}
                     <h5 class="card-title">{{ thesis.title }}</h5>
                     <p class="text-muted"><i>By: {{ thesis.organizer.user.username }}</i></p>
-                    <p class="text-black">Posted: {{ thesis.created_at|date:"M d, Y H:i" }} | Start Date: {{
-                        thesis.start_date|date:"M d, Y" }} | End Date: {{ thesis.end_date|date:"M d, Y" }}</p>
+                    <p class="text-black">Posted: {{ thesis.created_at|date:"M d, Y H:i" }} | Start Date: {{ thesis.start_date|date:"M d, Y" }} | End Date: {{ thesis.end_date|date:"M d, Y" }}</p>
                     <p class="text-black">Researching: {{ thesis.research_topic }} in {{ thesis.research_field }}</p>
                     <p class="text-black">Status: {{ thesis.status }}</p>
                     <hr>
