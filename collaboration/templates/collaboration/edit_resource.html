@@ -1,23 +1,62 @@
-<!-- Edit Item Modal -->
-<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="editModalLabel">Edit Item</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form>
-                    <div class="mb-3">
-                        <label for="editItem" class="form-label">Item Name</label>
-                        <input type="text" class="form-control" id="editItem" placeholder="Edit item name">
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save Changes</button>
-            </div>
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h3>Edit Resource</h3>
+    <form method="POST" enctype="multipart/form-data" action="{% url 'collaboration:edit_resource' resource.id %}">
+        {% csrf_token %}
+        <input type="hidden" name="model" value="{{ type }}">
+        <input type="hidden" name="object_id" value="{{ obj.id }}">
+
+        <!-- Name -->
+        <div class="mb-3">
+            <label for="name" class="form-label">Name:</label>
+            <input type="text" id="name" name="name" class="form-control" value="{{ resource.name }}" required>
         </div>
-    </div>
+
+        <!-- Description -->
+        <div class="mb-3">
+            <label for="description" class="form-label">Description:</label>
+            <input type="text" id="description" name="description" class="form-control" value="{{ resource.description }}" required>
+        </div>
+
+        <!-- Type -->
+        <div class="mb-3">
+            <label for="type" class="form-label">Resource Type:</label>
+            <input type="text" id="type" name="type" class="form-control" value="{{ resource.type }}" required>
+        </div>
+
+        <!-- Amount -->
+        <div class="mb-3">
+            <label for="amount" class="form-label">Amount:</label>
+            <input type="number" id="amount" name="amount" class="form-control" value="{{ resource.amount }}" required>
+        </div>
+
+        <!-- University -->
+        <div class="mb-3">
+            <label for="university" class="form-label">University:</label>
+            <input type="text" id="university" name="university" class="form-control" value="{{ resource.university }}" required>
+        </div>
+
+        <!-- Department -->
+        <div class="mb-3">
+            <label for="department" class="form-label">Department:</label>
+            <input type="text" id="department" name="department" class="form-control" value="{{ resource.department }}" required>
+        </div>
+
+        <!-- Image -->
+        <div class="mb-3">
+            <label for="image" class="form-label">Resource Image:</label>
+            <input type="file" id="image" name="image" class="form-control">
+            {% if resource.image %}
+                <small class="form-text text-muted">Current: <a href="{{ resource.image.url }}" target="_blank">View Image</a></small>
+            {% endif %}
+        </div>
+
+        <div class="d-flex justify-content-between">
+            <a href="{% url 'collaboration:view_resource' resource.id %}?model={{ type }}&object_id={{ obj.id }}" class="btn btn-secondary">Cancel</a>
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+        </div>
+    </form>
 </div>
+{% endblock %}
