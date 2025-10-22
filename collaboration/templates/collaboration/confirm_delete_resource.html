@@ -8,10 +8,10 @@
     <form method="post" action="{% url 'collaboration:confirm_delete' resource.pk %}">
         {% csrf_token %}
         <input type="hidden" name="model" value="{{ type }}">
-        <input type="hidden" name="object_id" value="{{ obj_id }}">
+        <input type="hidden" name="object_id" value="{{ obj.id }}">
+        <a href="{% url 'collaboration:view_resource' resource.pk %}" class="btn btn-secondary">Cancel</a>
 
-        <a href="{% url 'collaboration:view_resource' %}" class="btn btn-secondary">Cancel</a>
-        <button type="submit" class="btn btn-danger">Delete</button>
+        <button type="submit" class="btn btn-danger">Confirm Delete</button>
     </form>
 </div>
 {% endblock %}
